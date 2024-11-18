@@ -18,6 +18,22 @@ int main(){
 	vector<Vector2f> vertices;
 	vector<Vector2f> points;
 
+	// Seeding rand()
+	srand(time(NULL));
+
+	// Creating and positioning the text
+	Text messageText;
+	Font font;
+	font.loadFromFile("C:/Windows/Fonts/arial.ttf");
+	messageText.setFont(font);
+	messageText.setString("Select three vertices");
+	messageText.setCharacterSize(75);
+	messageText.setFillColor(Color::White);
+	FloatRect textRect = messageText.getLocalBounds();
+	messageText.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	messageText.setPosition(1920 / 2.0f, 75);
+
+
 	while (window.isOpen()){
 		/*
 		****************************************
@@ -40,6 +56,15 @@ int main(){
 		
 					if(vertices.size() < 3){
 						vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
+						if (vertices.size() == 3) {
+							messageText.setString("Choose a point within the triangle to start");
+							FloatRect textRect = messageText.getLocalBounds();
+							messageText.setOrigin(textRect.left +
+								textRect.width / 2.0f,
+								textRect.top +
+								textRect.height / 2.0f);
+							messageText.setPosition(1920 / 2.0f, 75);
+						}
 					}
 					else if(points.size() == 0){
 						///fourth click
@@ -64,6 +89,12 @@ int main(){
 		    ///select random vertex
 		    ///calculate midpoint between random vertex and the last point in the vector
 		    ///push back the newly generated coord.
+			for (int i = 0; i < 5; i++){
+					int vertice = rand() % 3;
+					float x = (vertices.at(vertice).x + points.back().x) / 2.0;
+					float y = (vertices.at(vertice).y + points.back().y) / 2.0;
+					points.push_back(Vector2f(x, y));
+			}
 		}
 	
 		/*
@@ -72,12 +103,26 @@ int main(){
 		****************************************
 		*/
 		window.clear();
+
+		if (vertices.size() < 3 || points.size() == 0) {
+			window.draw(messageText);
+		}
+
 		for(int i = 0; i < vertices.size(); i++){
 		    RectangleShape rect(Vector2f(10,10));
 		    rect.setPosition(Vector2f(vertices[i].x, vertices[i].y));
 		    rect.setFillColor(Color::Blue);
 		    window.draw(rect);
 		}
+
+		for (int i = 0; i < points.size(); i++) {
+			RectangleShape rect(Vector2f(5, 5));
+			rect.setPosition(points[i].x, points[i].y);
+			rect.setFillColor(Color::Red);
+			window.draw(rect);
+		}
+
+
 		window.display();
 	}
 }
