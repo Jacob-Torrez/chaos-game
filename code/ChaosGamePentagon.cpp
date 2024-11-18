@@ -59,7 +59,7 @@ int main(){
 						
 						// changes text
 						if (vertices.size() == 5) {
-							messageText.setString("Choose a point within the triangle to start");
+							messageText.setString("Choose a point within the pentagon to start");
 							FloatRect textRect = messageText.getLocalBounds();
 							messageText.setOrigin(textRect.left +
 								textRect.width / 2.0f,
