@@ -24,7 +24,7 @@ int main(){
 	// Creating and positioning the text
 	Text messageText;
 	Font font;
-	font.loadFromFile("C:/Windows/Fonts/arial.ttf");
+	font.loadFromFile("Fonts/arial.ttf");
 	messageText.setFont(font);
 	messageText.setString("Select three vertices");
 	messageText.setCharacterSize(75);
